@@ -1,6 +1,6 @@
 /*********
   Rui Santos
-  Complete project details at https://randomnerdtutorials.com  
+  Complete project details at https://randomnerdtutorials.com
 *********/
 
 // Load Wi-Fi library
@@ -22,7 +22,7 @@ String output27State = "off";
 
 // Assign output variables to GPIO pins
 const int output26 = 2;
-const int output27 = 27;
+const int output27 = 2;
 
 void setup() {
   Serial.begin(115200);
@@ -41,7 +41,7 @@ void setup() {
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
   Serial.println(IP);
-  
+
   server.begin();
 }
 
@@ -66,7 +66,7 @@ void loop(){
             client.println("Content-type:text/html");
             client.println("Connection: close");
             client.println();
-            
+
             // turns the GPIOs on and off
             if (header.indexOf("GET /26/on") >= 0) {
               Serial.println("GPIO 26 on");
@@ -85,33 +85,33 @@ void loop(){
               output27State = "off";
               digitalWrite(output27, LOW);
             }
-            
+
             // Display the HTML web page
             client.println("<!DOCTYPE html><html>");
             client.println("<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
             client.println("<link rel=\"icon\" href=\"data:,\">");
-            // CSS to style the on/off buttons 
+            // CSS to style the on/off buttons
             // Feel free to change the background-color and font-size attributes to fit your preferences
             client.println("<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}");
             client.println(".button { background-color: #4CAF50; border: none; color: white; padding: 16px 40px;");
             client.println("text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;}");
             client.println(".button2 {background-color: #555555;}</style></head>");
-            
+
             // Web Page Heading
             client.println("<body><h1>Serra Rocketry Launcher V1.0</h1>");
-            
-            // Display current state, and ON/OFF buttons for GPIO 26  
+
+            // Display current state, and ON/OFF buttons for GPIO 26
             client.println("<p>GPIO 26 - State " + output26State + "</p>");
-            // If the output26State is off, it displays the ON button       
+            // If the output26State is off, it displays the ON button
             if (output26State=="off") {
               client.println("<p><a href=\"/26/on\"><button class=\"button\">Lauch the God damn rocket</button></a></p>");
             } else {
               client.println("<p><a href=\"/26/off\"><button class=\"button button2\">Abort</button></a></p>");
-            } 
-               
+            }
+
 
             client.println("</body></html>");
-            
+
             // The HTTP response ends with another blank line
             client.println();
             // Break out of the while loop
